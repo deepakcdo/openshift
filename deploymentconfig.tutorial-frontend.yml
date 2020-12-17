@@ -1,0 +1,92 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: "2020-05-29T10:52:26Z"
+  generation: 15
+  labels:
+    app: tutorial-frontend
+  name: tutorial-frontend
+  namespace: new-orbit
+  resourceVersion: "690379877"
+  selfLink: /apis/apps.openshift.io/v1/namespaces/new-orbit/deploymentconfigs/tutorial-frontend
+  uid: 7bac96c6-a19a-11ea-bf7a-0645a759894e
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: tutorial-frontend
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tutorial-frontend
+        deploymentconfig: tutorial-frontend
+    spec:
+      containers:
+      - env:
+        - name: COMPONENT_BACKEND_HOST
+          value: tutorial-app-new-orbit.e4ff.pro-eu-west-1.openshiftapps.com
+        - name: COMPONENT_BACKEND_PORT
+          value: "8080"
+        image: docker-registry.default.svc:5000/new-orbit/tutorial-frontend@sha256:201b7218483c0e1a75f66f82377d41dd3d6458a455fc23b207ae723c33508784
+        imagePullPolicy: Always
+        name: tutorial-frontend
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - tutorial-frontend
+      from:
+        kind: ImageStreamTag
+        name: tutorial-frontend:latest
+        namespace: new-orbit
+      lastTriggeredImage: docker-registry.default.svc:5000/new-orbit/tutorial-frontend@sha256:201b7218483c0e1a75f66f82377d41dd3d6458a455fc23b207ae723c33508784
+    type: ImageChange
+  - type: ConfigChange
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2020-05-29T10:55:12Z"
+    lastUpdateTime: "2020-05-29T10:55:12Z"
+    message: Deployment config has minimum availability.
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2020-05-30T14:00:44Z"
+    lastUpdateTime: "2020-05-30T14:00:46Z"
+    message: replication controller "tutorial-frontend-14" successfully rolled out
+    reason: NewReplicationControllerAvailable
+    status: "True"
+    type: Progressing
+  details:
+    causes:
+    - type: ConfigChange
+    message: config change
+  latestVersion: 14
+  observedGeneration: 15
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1

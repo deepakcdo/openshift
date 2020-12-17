@@ -1,0 +1,51 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: null
+  labels:
+    app: tutorial-frontend
+  name: tutorial-frontend
+  selfLink: /apis/build.openshift.io/v1/namespaces/new-orbit/buildconfigs/tutorial-frontend
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: tutorial-frontend:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: https://github.com/ht1006/react-crud-web-api.git
+    type: Git
+  strategy:
+    sourceStrategy:
+      env:
+      - name: COMPONENT_BACKEND_HOST
+        value: tutorial-backend
+      - name: COMPONENT_BACKEND_PORT
+        value: "8080"
+      from:
+        kind: ImageStreamTag
+        name: nodejs:10
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - imageChange:
+      lastTriggeredImageID: docker-registry.default.svc:5000/openshift/nodejs@sha256:f9fc086894a2d9b8b13888fef1d9cdd70245b655743707257f32ad456771f1ba
+    type: ImageChange
+  - type: ConfigChange
+  - generic:
+      secret: e8d3b996100c6912
+    type: Generic
+  - github:
+      secret: 9c8265fafe25858f
+    type: GitHub
+status:
+  lastVersion: 4

@@ -1,0 +1,14 @@
+Choose a project name
+Create a new git project
+This will have these folders
+Doc - Presenstaiton on Openshift, documents on how to set up crc
+Java app that reads from database enriches the data and publishes to database
+Java web app that adds , reads and list data from database. 
+
+Two openshift environments
+One dev done prod
+
+Dev you build configs and then save deployment config to git
+Prod we load the deployment config from git
+Secrets in each environment. 
+Deploy the built containers in box with docker deamon. 

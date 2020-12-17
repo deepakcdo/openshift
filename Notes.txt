@@ -1,0 +1,92 @@
+On a Mac go to setting and type in proxies, and Enter in the ByPass proxy settings  *.apps-crc.testing
+
+cd /Users/deepakcdo/Documents/MySpace/Dev/openshift
+crc setup
+eval $(crc oc-env)
+
+
+crc start
+crc stop
+
+
+Web console
+
+crc console - 
+ this will open console 
+https://console-openshift-console.apps-crc.testing/
+https://oauth-openshift.apps-crc.testing
+
+Logs /Users/deepakcdo/.crc/crc.log
+
+
+
+Command Line Console 
+oc login -u developer -p developer https://api.crc.testing:6443
+oc login -u kubeadmin -p jh3kL-Te6cD-BKDG7-3rvSu https://api.crc.testing:6443
+oc login -u root -p deepak https://api.crc.testing:6443
+
+docker pull default-route-openshift-image-registry.apps-crc.testing/default/undertow-servlet:latest
+
+
+-- create users
+htpasswd -c -B -b /Users/deepakcdo/Documents/MySpace/Dev/openshift/names dev deepak
+htpasswd -B -b /Users/deepakcdo/Documents/MySpace/Dev/openshift/names root deepak
+oc create secret generic htpass-secret-new --from-file=htpasswd=/Users/deepakcdo/Documents/MySpace/Dev/openshift/names -n openshift-config
+oc apply -f /Users/deepakcdo/Documents/MySpace/Dev/openshift/passwordCr.txt 
+https://docs.openshift.com/container-platform/4.2/registry/securing-exposing-registry.html
+$ docker login -u kubeadmin -p $(oc whoami -t) default-route-openshift-image-registry.apps-crc.testing
+
+docker run -d -p 8080:8080 default-route-openshift-image-registry.apps-crc.testing/default/undertow-servlet
+
+default-route-openshift-image-registry.apps-crc.testing/default/undertow-servlet
+  
+
+docker pull image-registry.openshift-image-registry.svc/default/undertow-servlet:latest
+
+
+NewOrbit 
+https://console-openshift-console.apps.us-east-2.starter.openshift-online.com/
+
+
+Mongo 
+-- start server
+mongod --noauth --dbpath /Users/deepakcdo/Documents/MySpace/Dev/openshift/mongo/data
+
+--start client
+Mongo
+
+
+-- insert
+ db.products.insertOne( { item: "card", qty: 15 } );
+
+-- query
+db.products.find( {} )
+
+
+-- copy from my to team
+
+oc login --token=WE3oUtJmFMH-Lqbi7rWKxEHvkk1oZg2-_JLy_wxUiQA --server=https://api.us-east-2.starter.openshift-online.com:6443
+
+
+
+use admin
+db.createUser(
+ {
+     user: "mongouser",
+     pwd: "mongouser",
+     roles: [
+           { role: "read", db: "tutorials-db" },
+           { role: "write", db: "tutorials-db" }
+        ]
+ })
+
+https://github.com/appuio/s2i-gradle-java/tree/master/s2i/bin
+
+show dbs
+use <db name>
+show collections
+db.collectionName.find()
+
+-- export build config
+oc get -o yaml deploymentconfig.apps.openshift.io/tutorial-frontend > deploymentconfig.tutorial-frontend.yml
+oc get -o yaml deploymentconfig.apps.openshift.io/tutorial-gui > deploymentconfig.tutorial-gui.yml

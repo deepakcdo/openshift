@@ -1,0 +1,49 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: null
+  labels:
+    app: tutorial-gui
+  name: tutorial-gui
+  selfLink: /apis/build.openshift.io/v1/namespaces/new-orbit/buildconfigs/tutorial-gui
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: tutorial-gui:latest
+  postCommit: {}
+  resources:
+    limits:
+      memory: 1Gi
+  runPolicy: Serial
+  source:
+    contextDir: /Apps/TutorialApp/tutorial-frontend
+    git:
+      ref: master
+      uri: https://github.com/deepakcdo/new-orbit.git
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: nodejs:10
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - generic:
+      secret: 70e0def91fcd1a3d
+    type: Generic
+  - github:
+      secret: fd544e12e7e796dc
+    type: GitHub
+  - imageChange:
+      lastTriggeredImageID: docker-registry.default.svc:5000/openshift/nodejs@sha256:f9fc086894a2d9b8b13888fef1d9cdd70245b655743707257f32ad456771f1ba
+    type: ImageChange
+  - type: ConfigChange
+status:
+  lastVersion: 3
